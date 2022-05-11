@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 import re
 from newspaper import Article
 import nltk
+import time
 nltk.download('punkt')
 
 st.title('News summarize')
@@ -24,6 +25,7 @@ option = st.selectbox(
         )
 #headers = {'X-Api-Key': 'a64fadec7ec7420cb83b631a2f1b203a'}
 #url = 'https://newsapi.org/v2/top-headlines'
+
 if option:
     headers = {'X-Api-Key': 'a64fadec7ec7420cb83b631a2f1b203a'}
     url = 'https://newsapi.org/v2/top-headlines'
@@ -56,6 +58,10 @@ if option:
     form = st.form(key='my_form')
     input = form.text_area(label='write here',max_chars=140,placeholder='ここに入力')
     submit_button = form.form_submit_button(label='Submit')
+    my_bar = st.progress(0)
+    for percent_complete in range(61):
+        time.sleep(1)
+        my_bar.progress(percent_complete + 1)
 
 
 # COTOHA API操作用クラス
@@ -172,8 +178,10 @@ if __name__ == '__main__' and input:
     final_score = score['score']
     if int(final_score*10) > 6:
         st.write('Correct answer')
+        st.balloons()
     else:
         st.write('You are wrong')
+        #st.snow()
     st.write(final_score)
     st.write(ans)
     #print(result)
